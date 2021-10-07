@@ -327,7 +327,7 @@ function ViewerComponent_p_tabView_2_p_tabView_24_p_accordion_25_Template(rf, ct
 } if (rf & 2) {
     const obj_r28 = ctx.$implicit;
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("header", obj_r28.ObjectName);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("header", obj_r28.ObjectId);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](5);
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](obj_r28.ObjectId ? obj_r28.ObjectId : "");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
