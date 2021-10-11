@@ -1,0 +1,224 @@
+<p-card *ngIf="!hideUpload">
+  <ngx-file-drop dropZoneLabel="Drop e-CoC .json here" (onFileDrop)="dropped($event)" (onFileOver)="fileOver($event)"
+    (onFileLeave)="fileLeave($event)">
+    <ng-template let-openFileSelector="openFileSelector">
+      Drag n' drop or
+      <button type="button" (click)="openFileSelector()">Browse Files</button>
+    </ng-template>
+  </ngx-file-drop>
+</p-card>
+<br *ngIf="!hideUpload" />
+<p-tabView *ngIf="json != null">
+  <p-tabPanel header="e-CoC">
+    <div class="p-grid">
+      <div class="p-col-2">Id</div>
+      <div class="p-col-10">{{json.Id ? json.Id : ''}}</div>
+      <div class="p-col-2">Uuid</div>
+      <div class="p-col-10">{{json.Uuid ? json.Uuid : ''}}</div>
+      <div class="p-col-2">URL</div>
+      <div class="p-col-10">{{json.URL ? json.URL : ''}}</div>
+      <div class="p-col-2">RefSchemaUrl</div>
+      <div class="p-col-10">{{json.RefSchemaUrl ? json.RefSchemaUrl : ''}}</div>
+      <div class="p-col-2">DataLevel</div>
+      <div class="p-col-10">{{json.EcocData.DataLevel ? json.EcocData.DataLevel : ''}}</div>
+    </div>
+    <p-divider></p-divider>
+    <p-tabView *ngIf="json.EcocData.DataLevel != 'A'">
+      <p-tabPanel header="e-CoC">
+        <div class="p-grid">
+          <div class="p-col-2">EcocType</div>
+          <div class="p-col-10">{{json.EcocData.Data.EcocType ? json.EcocData.Data.EcocType : ''}}</div>
+
+          <div class="p-col-12">
+            <p-fieldset legend="Parties">
+              <p-accordion *ngFor="let party of json.EcocData.Data.Parties">
+                <p-accordionTab [header]="party.PartyName">
+                  <div class="p-grid">
+                    <div class="p-col-2">PartyName</div>
+                    <div class="p-col-10">{{party.PartyName ? party.PartyName : ''}}</div>
+
+                    <div class="p-col-2">Adress</div>
+                    <div class="p-col-10"></div>
+                    <div class="p-col-1"></div>
+                    <div class="p-col-2">StreetAddress</div>
+                    <div class="p-col-9">{{party.PartyAddress.StreetAddress ? party.PartyAddress.StreetAddress : ''}}
+                    </div>
+
+                    <div class="p-col-1"></div>
+                    <div class="p-col-2">City</div>
+                    <div class="p-col-9">{{party.PartyAddress.City ? party.PartyAddress.City : ''}}</div>
+
+                    <div class="p-col-1"></div>
+                    <div class="p-col-2">PostalCode</div>
+                    <div class="p-col-9">{{party.PartyAddress.PostalCode ? party.PartyAddress.PostalCode : ''}}</div>
+
+                    <div class="p-col-1"></div>
+                    <div class="p-col-2">CountryCode</div>
+                    <div class="p-col-9">{{party.PartyAddress.CountryCode ? party.PartyAddress.CountryCode : ''}}</div>
+
+                    <div class="p-col-1"></div>
+                    <div class="p-col-2">State</div>
+                    <div class="p-col-9">{{party.PartyAddress.State ? party.PartyAddress.State : ''}}</div>
+
+                    <div class="p-col-1" *ngIf="party.PartyAddress.AddAddressLine"></div>
+                    <div class="p-col-2" *ngIf="party.PartyAddress.AddAddressLine">AddAddressLine</div>
+                    <div class="p-col-9" *ngIf="party.PartyAddress.AddAddressLine">
+                      {{party.PartyAddress.AddAddressLine ? party.PartyAddress.AddAddressLine : ''}}</div>
+
+                    <div class="p-col-2">PartyRole</div>
+                    <div class="p-col-10">{{party.PartyRole ? party.PartyRole : ''}}</div>
+                  </div>
+                </p-accordionTab>
+              </p-accordion>
+            </p-fieldset>
+          </div>
+
+          <div class="p-col-12">
+            <p-fieldset legend="NormativeRef">
+              <p-table [value]="json.EcocData.Data.NormativeRef">
+                <ng-template pTemplate="body" let-reference>
+                  <tr>
+                    <td>{{reference}}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </p-fieldset>
+          </div>
+
+          <div class="p-col-12">
+            <p-fieldset legend="BusinessRef">
+              <p-tabView>
+                <p-tabPanel header="StandardReferences">
+                  <p-table [value]="json.EcocData.Data.BusinessRef.StandardReferences">
+                    <ng-template pTemplate="body" let-reference>
+                      <tr>
+                        <td>{{reference.Name}}</td>
+                        <td>{{reference.Value}}</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </p-tabPanel>
+
+                <p-tabPanel header="AdditionalReferences">
+                  <p-table [value]="json.EcocData.Data.BusinessRef.AdditionalReferences">
+                    <ng-template pTemplate="body" let-reference>
+                      <tr>
+                        <td>{{reference.Name}}</td>
+                        <td *ngFor="let val of reference.Value">{{val}}</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </p-tabPanel>
+              </p-tabView>
+            </p-fieldset>
+          </div>
+
+          <div class="p-col-12">
+            <p-fieldset legend="ObjectOfDeclaration">
+              <p-accordion *ngFor="let obj of json.EcocData.Data.ObjectOfDeclaration">
+                <p-accordionTab [header]="obj.ObjectId">
+                  <div class="p-grid">
+                    <div class="p-col-2">ObjectId</div>
+                    <div class="p-col-10">{{obj.ObjectId ? obj.ObjectId : ''}}</div>
+                    <div class="p-col-2">ObjectName</div>
+                    <div class="p-col-10">{{obj.ObjectName ? obj.ObjectName : ''}}</div>
+                    <div class="p-col-2">ObjectType</div>
+                    <div class="p-col-10">{{obj.ObjectType ? obj.ObjectType : ''}}</div>
+                  </div>
+
+                  <p-table [value]="obj.Quantities">
+                    <ng-template pTemplate="caption">
+                      <div class="p-d-flex p-ai-center p-jc-between">Quantities</div>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-quantity>
+                      <tr>
+                        <td>{{quantity.Amount}} {{quantity.Unit}}</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+
+                  <p-table [value]="obj.Dimensions">
+                    <ng-template pTemplate="caption">
+                      <div class="p-d-flex p-ai-center p-jc-between">Dimensions</div>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-dimension>
+                      <tr>
+                        <td>{{dimension.Direction}}</td>
+                        <td>{{dimension.DimValue}} {{dimension.DimUnit}}</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+
+                  <p-table [value]="obj.ObjectProperties">
+                    <ng-template pTemplate="caption">
+                      <div class="p-d-flex p-ai-center p-jc-between">ObjectProperties</div>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-property>
+                      <tr>
+                        <td>{{property.Name}}</td>
+                        <td *ngFor="let val of property.Value">{{val}}</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </p-accordionTab>
+              </p-accordion>
+            </p-fieldset>
+          </div>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Results" *ngIf="json.EcocData.DataLevel == 'C'">
+        <ngx-json-viewer [json]="json.EcocData.Results" [depth]="2"></ngx-json-viewer>
+      </p-tabPanel>
+    </p-tabView>
+  </p-tabPanel>
+  <p-tabPanel header="Declaration" *ngIf="json.EcocData.DataLevel != 'A'">
+    <div class="p-grid">
+      <div class="p-col-2">Date of Issue</div>
+      <div class="p-col-10">{{json.Declaration.DateOfIssue ? json.Declaration.DateOfIssue : ''}}</div>
+
+      <div class="p-col-2">Concessions</div>
+      <div class="p-col-10">
+        <p *ngFor="let Concession of json.Declaration.Concessions">{{Concession}}</p>
+      </div>
+
+      <div class="p-col-2">Remarks</div>
+      <div class="p-col-10">
+        <p *ngFor="let remark of json.Declaration.remarks">{{remark}}</p>
+      </div>
+
+      <div class="p-col-2">ConformityStatus</div>
+      <div class="p-col-10">{{json.Declaration.ConformityStatus ? json.Declaration.ConformityStatus : ''}}</div>
+
+      <div class="p-col-2">Signature</div>
+      <div class="p-col-10"></div>
+      <div class="p-col-1"></div>
+      <div class="p-col-2">SignerName</div>
+      <div class="p-col-9">{{json.Declaration.Signature.SignerName ? json.Declaration.Signature.SignerName : ''}}</div>
+      <div class="p-col-1"></div>
+      <div class="p-col-2">SignerPosition</div>
+      <div class="p-col-9">
+        {{json.Declaration.Signature.SignerPosition ? json.Declaration.Signature.SignerPosition : ''}}</div>
+      <div class="p-col-1"></div>
+      <div class="p-col-2">SignatureStamp</div>
+      <div class="p-col-9">
+        {{json.Declaration.Signature.SignatureStamp ? json.Declaration.Signature.SignatureStamp : ''}}</div>
+      <div class="p-col-1"></div>
+      <div class="p-col-2">SignatureDate</div>
+      <div class="p-col-9">{{json.Declaration.Signature.SignatureDate ? json.Declaration.Signature.SignatureDate : ''}}
+      </div>
+
+      <div class="p-col-2">CocConfirmationText</div>
+      <div class="p-col-10">
+        <p *ngFor="let CocConfirmationText of json.Declaration.CocConfirmationText">{{CocConfirmationText}}</p>
+      </div>
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="Attachment">
+    <iframe [src]="pdf | safe: 'resourceUrl'" width="100%" height="900px"></iframe>
+  </p-tabPanel>
+  <p-tabPanel header="JSON">
+    <ngx-json-viewer [json]="json" [expanded]="false"></ngx-json-viewer>
+  </p-tabPanel>
+</p-tabView>
+
+<p-toast position="top-right"></p-toast>
