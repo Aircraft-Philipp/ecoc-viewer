@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ViewerComponent } from './viewer/viewer.component';
 
 const routes: Routes = [
-  { path: '', component: ViewerComponent }
+  { path: '**', component: ViewerComponent }
 ];
 
 @NgModule({

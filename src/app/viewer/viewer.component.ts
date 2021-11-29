@@ -25,13 +25,24 @@ export class ViewerComponent implements OnInit {
 
     ngOnInit(): void {
         this.route.queryParams.subscribe(params => {
-            if (params.path) {
-                this.http.get(params.path).subscribe(data => {
+            if (params.dl) {
+                this.http.get(atob(String(params.dl))).subscribe(data => {
                     this.hideUpload = true;
                     this.json = data;
                 });
             }
         })
+
+        const ecoc = sessionStorage.getItem('e-coc-viewer');
+        if(ecoc != undefined) {
+            this.hideUpload = true;
+            this.json = JSON.parse(atob(ecoc));
+            sessionStorage.removeItem('e-coc-viewer');
+        }
+    }
+
+    getPartyByNo(partyNo: number) {
+        return this.json.EcocData.Data.Parties.find((x: any) => x.PartyNo === partyNo);
     }
 
     public dropped(files: NgxFileDropEntry[]) {

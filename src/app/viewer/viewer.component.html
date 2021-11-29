@@ -32,12 +32,14 @@
           <div class="p-col-12">
             <p-fieldset legend="Parties">
               <p-accordion *ngFor="let party of json.EcocData.Data.Parties">
-                <p-accordionTab [header]="party.PartyName">
+                <p-accordionTab [header]="party.PartyNo + ' - ' + party.PartyName">
                   <div class="p-grid">
+                    <div class="p-col-2">PartyNo</div>
+                    <div class="p-col-10">{{party.PartyNo ? party.PartyNo : ''}}</div>
                     <div class="p-col-2">PartyName</div>
                     <div class="p-col-10">{{party.PartyName ? party.PartyName : ''}}</div>
 
-                    <div class="p-col-2">Adress</div>
+                    <div class="p-col-2">Address</div>
                     <div class="p-col-10"></div>
                     <div class="p-col-1"></div>
                     <div class="p-col-2">StreetAddress</div>
